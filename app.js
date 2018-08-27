@@ -1,12 +1,12 @@
 // Budget Controller
 const budgetController = (() => {
-    const Expense = (id, description, value) => {
+    const Expense = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
     }
 
-    const Income = (id, description, value) => {
+    const Income = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
@@ -26,8 +26,12 @@ const budgetController = (() => {
     return {
         addItem: (type, description, value) => {
             let newItem, id;
-            // get the last element in the data object's allEntries array according to the type
-            id = data.allEntries[type][data.allEntries[type].length - 1].id + 1;
+            // generate new id by getting the last element in the data object's allEntries array according to the type and adding 1
+            if(data.allEntries[type].length > 0) {
+                id = data.allEntries[type][data.allEntries[type].length - 1].id + 1;
+            } else {
+                id = 0;
+            }
 
             if(type === 'expense') {
                 newItem = new Expense(id, description, value)
@@ -35,8 +39,15 @@ const budgetController = (() => {
                 newItem = new Income(id, description, value)
             }
             // access object using string notation
-            data[type].push(newItem);
+            data.allEntries[type].push(newItem);
+            // console.log(data[type]);
+
+            // return new item
             return newItem;
+        },
+
+        testing: () => {
+            console.log(data);
         }
     }
 })()
@@ -81,10 +92,13 @@ const controller = ((UICtrl, budgetCtrl) => {
     }
     
     const ctrlAddItem = () => {
+        let input, newItem;
         // get input data
-        let input = UICtrl.getInput();
-        // add item to budget controller
+        input = UICtrl.getInput();
 
+        // add item to budget controller
+        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        budgetCtrl.testing();
         // add new item to the UI
 
         // calculate budget
