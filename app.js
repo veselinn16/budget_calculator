@@ -8,7 +8,8 @@ const UIController = (() => {
     const domStrings = {
         inputType: '.add__type',
         inputDescription: '.add__description',
-        inputValue: '.add__value'
+        inputValue: '.add__value',
+        btn: '.add__btn'
     }
     
     return {
@@ -18,16 +19,32 @@ const UIController = (() => {
                 description: document.querySelector(domStrings.inputDescription).value,
                 value: document.querySelector(domStrings.inputValue).value
             }
+        },
+
+        getDOMStrings: () => {
+            // expose the domString variable
+            return domStrings;
         }
     }
 })();
 
 // App controller
 const controller = ((UICtrl, budgetCtrl) => {
+    const setupEventListeners = () => {
+        const DOM = UICtrl.getDOMStrings();
+
+        // click event listener
+        document.querySelector(DOM.btn).addEventListener('click', ctrlAddItem);
+        
+        // event listener for ENTER
+        document.addEventListener('keypress', (event) => {
+            (event.keyCode === 13) && (ctrlAddItem());
+        });
+    }
+    
     const ctrlAddItem = () => {
         // 1. get input data
         let input = UICtrl.getInput();
-        console.log(input);
         // 2. add item to budget controller
 
         // 3. add new item to the UI
@@ -37,11 +54,12 @@ const controller = ((UICtrl, budgetCtrl) => {
         // 5. display budget in UI
     }
 
-    // click event listener
-    document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
-    
-    // event listener for ENTER
-    document.addEventListener('keypress', (event) => {
-        (event.keyCode === 13) && (ctrlAddItem());
-    });
+    return {
+        init: () => {
+            console.log('App has started!')
+            setupEventListeners();
+        }
+    }
 })(UIController, budgetController)
+
+controller.init();
