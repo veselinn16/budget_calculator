@@ -1,6 +1,16 @@
 // Budget Controller
 const budgetController = (() => {
-    
+    const Expense = (id, description, value) => {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    }
+
+    const Income = (id, description, value) => {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    }
 })()
 
 // UI Controller
@@ -43,15 +53,15 @@ const controller = ((UICtrl, budgetCtrl) => {
     }
     
     const ctrlAddItem = () => {
-        // 1. get input data
+        // get input data
         let input = UICtrl.getInput();
-        // 2. add item to budget controller
+        // add item to budget controller
 
-        // 3. add new item to the UI
+        // add new item to the UI
 
-        // 4. calculate budget
+        // calculate budget
 
-        // 5. display budget in UI
+        // display budget in UI
     }
 
     return {
