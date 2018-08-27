@@ -14,12 +14,29 @@ const budgetController = (() => {
 
     let data = {
         allEntries: {
-            expenses: [],
-            incomes: []
+            expense: [],
+            income: []
         },
         totals: {
             exp: 0,
             inc: 0
+        }
+    }
+
+    return {
+        addItem: (type, description, value) => {
+            let newItem, id;
+            // get the last element in the data object's allEntries array according to the type
+            id = data.allEntries[type][data.allEntries[type].length - 1].id + 1;
+
+            if(type === 'expense') {
+                newItem = new Expense(id, description, value)
+            } else {
+                newItem = new Income(id, description, value)
+            }
+            // access object using string notation
+            data[type].push(newItem);
+            return newItem;
         }
     }
 })()
