@@ -23,5 +23,8 @@ const controller = ((UICtrl, budgetCtrl) => {
 
     })
     
-    
+    // event listener for ENTER
+    document.addEventListener('keypress', (event) => {
+        (event.keyCode === 13) && ()
+    });
 })(UIController, budgetController)
