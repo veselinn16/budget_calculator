@@ -7,8 +7,21 @@ const budgetController = (() => {
 
     return {
         publicTest: (b) => {
-            console.log(add(b));
+            return add(b);
         }
     }
 })()
 
+const UIController = (() => {
+
+})();
+
+const controller = ((UICtrl, budgetCtrl) => {
+    let z = budgetCtrl.publicTest(1);
+    return {
+        public: () => {
+            console.log(z);
+        }
+    }
+})(UIController, budgetController)
+controller.public();
