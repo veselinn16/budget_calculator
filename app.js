@@ -11,6 +11,17 @@ const budgetController = (() => {
         this.description = description;
         this.value = value;
     }
+
+    let data = {
+        allEntries: {
+            expenses: [],
+            incomes: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    }
 })()
 
 // UI Controller
