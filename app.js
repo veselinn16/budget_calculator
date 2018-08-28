@@ -95,6 +95,9 @@ const UIController = (() => {
             inputsArray.forEach((current, index, array) => {
                 current.value = '';
             });
+
+            // set focus on the first input
+            inputsArray[0].focus();
         },
 
         getDOMStrings: () => {
@@ -131,7 +134,7 @@ const controller = ((UICtrl, budgetCtrl) => {
 
         // clear fields after adding entry
         UICtrl.clearInputs()
-        
+
         // calculate budget
 
         // display budget in UI
