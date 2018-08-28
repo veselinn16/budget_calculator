@@ -20,7 +20,19 @@ const budgetController = (() => {
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: -1
+    }
+
+    const sumTotal = (type) => {
+        let sum = 0;
+
+        data.allEntries[type].forEach((currentEl) => {
+            sum += currentEl.value;
+        })
+
+        data.totals[type] = sum
     }
 
     return {
@@ -43,7 +55,22 @@ const budgetController = (() => {
 
             // return new item
             return newItem;
-        }, 
+        },
+
+        calculateBudget: () => {
+            // calculate total income and expenses
+            sumTotal('expense');
+            sumTotal('income');
+
+            // calculate budget --> income - expenses
+            data.budget = data.totals.inc - data.totals.exp
+
+            // calculate percentage of expenses from income
+            data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+        },
+
+        
+
         testing: () => {
             console.log(data);
         }
@@ -126,9 +153,10 @@ const controller = ((UICtrl, budgetCtrl) => {
 
     const updateBudget = () => {
         // calculate budget
+        budgetCtrl.calculateBudget();
 
         // return the budget
-
+        // let budget = 
         // display budget in UI
 
     }
