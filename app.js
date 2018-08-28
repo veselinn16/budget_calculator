@@ -43,6 +43,9 @@ const budgetController = (() => {
 
             // return new item
             return newItem;
+        }, 
+        testing: () => {
+            console.log(data);
         }
     }
 })()
@@ -63,7 +66,7 @@ const UIController = (() => {
             return {
                 type: document.querySelector(domStrings.inputType).value, // income or expense
                 description: document.querySelector(domStrings.inputDescription).value,
-                value: document.querySelector(domStrings.inputValue).value
+                value: parseFloat(document.querySelector(domStrings.inputValue).value)
             }
         },
 
@@ -120,6 +123,15 @@ const controller = ((UICtrl, budgetCtrl) => {
             (event.keyCode === 13) && (ctrlAddItem());
         });
     }
+
+    const updateBudget = () => {
+        // calculate budget
+
+        // return the budget
+
+        // display budget in UI
+
+    }
     
     const ctrlAddItem = () => {
         let input, newItem;
@@ -133,11 +145,10 @@ const controller = ((UICtrl, budgetCtrl) => {
         UICtrl.addListItem(newItem, input.type);
 
         // clear fields after adding entry
-        UICtrl.clearInputs()
-
-        // calculate budget
-
-        // display budget in UI
+        UICtrl.clearInputs();       
+        
+        // calculate and update budget
+        updateBudget();
     }
 
     return {
