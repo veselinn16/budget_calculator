@@ -100,7 +100,8 @@ const UIController = (() => {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        itemsContainer: '.container'
     }
     
     return {
@@ -172,6 +173,8 @@ const controller = ((UICtrl, budgetCtrl) => {
         document.addEventListener('keypress', (event) => {
             (event.keyCode === 13) && (ctrlAddItem());
         });
+
+        document.querySelector(DOM.itemsContainer).addEventListener('click', deleteItem)
     }
 
     const updateBudget = () => {
@@ -206,8 +209,29 @@ const controller = ((UICtrl, budgetCtrl) => {
         }        
     }
 
+    const deleteItem = (event) => {
+        let entryID, splitID, type, id;
+        // gets the Id of the entry element
+        entryID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+        if(entryID) {
+            splitID = entryID.split('-');
+            type = splitID[0];
+            id = splitID[1];
+
+            // delete item from data structure
+
+
+            // delete item from UI
+
+
+            // update and show budget
+        }
+    }
+
     return {
         init: () => {
+            // reset everything to 0
             UICtrl.displayBudget({
                 budget: 0,
                 percentage: -1,
