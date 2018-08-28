@@ -96,7 +96,11 @@ const UIController = (() => {
         inputValue: '.add__value',
         btn: '.add__btn',
         incomeContainer: '.income__list',
-        expensesContainer: '.expenses__list'
+        expensesContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expensesLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     }
     
     return {
@@ -141,6 +145,14 @@ const UIController = (() => {
             inputsArray[0].focus();
         },
 
+        displayBudget: (dataObject) => {
+            document.querySelector(domStrings.budgetLabel).textContent = dataObject.budget;
+            document.querySelector(domStrings.incomeLabel).textContent = dataObject.totalIncome;
+            document.querySelector(domStrings.expensesLabel).textContent = dataObject.totalExpenses;
+
+            dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = '---';
+        },
+
         getDOMStrings: () => {
             // expose the domStrings object
             return domStrings;
@@ -170,7 +182,7 @@ const controller = ((UICtrl, budgetCtrl) => {
         let budget = budgetCtrl.getBudget()
 
         // display budget in UI
-        console.log(budget);
+        UICtrl.displayBudget(budget);
     }
     
     const ctrlAddItem = () => {
@@ -196,7 +208,12 @@ const controller = ((UICtrl, budgetCtrl) => {
 
     return {
         init: () => {
-            console.log('App has started!')
+            UICtrl.displayBudget({
+                budget: 0,
+                percentage: -1,
+                totalIncome: 0,
+                totalExpenses: 0
+            });
             setupEventListeners();
         }
     }
