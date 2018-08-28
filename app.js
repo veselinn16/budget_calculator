@@ -18,8 +18,8 @@ const budgetController = (() => {
             income: []
         },
         totals: {
-            exp: 0,
-            inc: 0
+            expense: 0,
+            income: 0
         },
         budget: 0,
         percentage: -1
@@ -63,13 +63,24 @@ const budgetController = (() => {
             sumTotal('income');
 
             // calculate budget --> income - expenses
-            data.budget = data.totals.inc - data.totals.exp
+            data.budget = data.totals.income - data.totals.expense
 
-            // calculate percentage of expenses from income
-            data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+            // calculate percentage of expenses from income only if there is income
+            if(data.totals.income > 0 ) {
+                data.percentage = Math.round((data.totals.expense / data.totals.income) * 100);
+            } else {
+                data.percentage = -1;
+            }
         },
 
-        
+        getBudget: () => {
+            return {
+                budget: data.budget,
+                percentage: data.percentage,
+                totalIncome: data.totals.income,
+                totalExpenses: data.totals.expense
+            }
+        },
 
         testing: () => {
             console.log(data);
@@ -156,9 +167,10 @@ const controller = ((UICtrl, budgetCtrl) => {
         budgetCtrl.calculateBudget();
 
         // return the budget
-        // let budget = 
-        // display budget in UI
+        let budget = budgetCtrl.getBudget()
 
+        // display budget in UI
+        console.log(budget);
     }
     
     const ctrlAddItem = () => {
