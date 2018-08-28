@@ -43,10 +43,6 @@ const budgetController = (() => {
 
             // return new item
             return newItem;
-        },
-
-        testing: () => {
-            console.log(data);
         }
     }
 })()
@@ -88,6 +84,19 @@ const UIController = (() => {
             document.querySelector(element).insertAdjacentHTML('beforeend', html);
         },
 
+        clearInputs: () => {
+            let inputFields, inputsArray;
+            inputFields = document.querySelectorAll(`${domStrings.inputDescription}, ${domStrings.inputValue}`)
+            
+            // convert NodeList to array
+            inputsArray = Array.prototype.slice.call(inputFields);
+
+            // loops over all inputs and clears them
+            inputsArray.forEach((current, index, array) => {
+                current.value = '';
+            });
+        },
+
         getDOMStrings: () => {
             // expose the domStrings object
             return domStrings;
@@ -116,10 +125,13 @@ const controller = ((UICtrl, budgetCtrl) => {
 
         // add item to budget controller
         newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-        budgetCtrl.testing();
 
         // add new item to the UI
         UICtrl.addListItem(newItem, input.type);
+
+        // clear fields after adding entry
+        UICtrl.clearInputs()
+        
         // calculate budget
 
         // display budget in UI
