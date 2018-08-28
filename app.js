@@ -40,7 +40,6 @@ const budgetController = (() => {
             }
             // access object using string notation
             data.allEntries[type].push(newItem);
-            // console.log(data[type]);
 
             // return new item
             return newItem;
@@ -58,7 +57,9 @@ const UIController = (() => {
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
-        btn: '.add__btn'
+        btn: '.add__btn',
+        incomeContainer: '.income__list',
+        expensesContainer: '.expenses__list'
     }
     
     return {
@@ -70,8 +71,25 @@ const UIController = (() => {
             }
         },
 
+        addListItem : (object, type) => {
+            let html, element;
+            if(type === 'income') {
+                element = domStrings.incomeContainer
+
+                // create HTML string with appropriate values
+                html = `<div class="item clearfix" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix"><div class="item__value">${object.value}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>              </div></div></div>`
+            } else {
+                element = domStrings.expensesContainer
+
+                html = `<div class="item clearfix" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix">     <div class="item__value">${object.value}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
+            }
+
+            // insert HTML in the DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', html);
+        },
+
         getDOMStrings: () => {
-            // expose the domString variable
+            // expose the domStrings object
             return domStrings;
         }
     }
@@ -99,8 +117,9 @@ const controller = ((UICtrl, budgetCtrl) => {
         // add item to budget controller
         newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         budgetCtrl.testing();
-        // add new item to the UI
 
+        // add new item to the UI
+        UICtrl.addListItem(newItem, input.type);
         // calculate budget
 
         // display budget in UI
