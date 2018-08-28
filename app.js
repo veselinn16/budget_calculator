@@ -57,6 +57,31 @@ const budgetController = (() => {
             return newItem;
         },
 
+        // removeItem : (type, id) => {
+        //     let IDs, index;
+        //     IDs = data.allEntries[type].map((current) => {
+        //         // return an array of the actual IDs
+        //         return current.id 
+        //     })
+
+        //     // find the index of the element in the array
+        //     console.log(IDs, id)
+        //     index = IDs.indexOf(id)
+
+        //     // remove the element from the data object if the index is not -1
+        //     (index !== -1) && (data.allEntries[type].splice(index, 1))
+        // },
+
+        removeItem: function(type, id) {
+ 
+            const delIndex = data.allEntries[type].findIndex(el => {
+                return el.id === id;
+            });
+         
+            data.allEntries[type].splice(delIndex, 1);
+         
+        },
+
         calculateBudget: () => {
             // calculate total income and expenses
             sumTotal('expense');
@@ -217,10 +242,10 @@ const controller = ((UICtrl, budgetCtrl) => {
         if(entryID) {
             splitID = entryID.split('-');
             type = splitID[0];
-            id = splitID[1];
+            id = parseInt(splitID[1]);
 
             // delete item from data structure
-
+            budgetCtrl.removeItem(type, id);
 
             // delete item from UI
 
