@@ -4,6 +4,16 @@ const budgetController = (() => {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.percentage = -1;
+    }
+
+    Expense.prototype.calcPercentage = (totalIncome) => {
+        // calculate percentage if there is income
+        (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
+    }
+
+    Expense.prototype.getPercentage = () => {
+        return this.percentage;
     }
 
     const Income = function (id, description, value) {
@@ -96,6 +106,10 @@ const budgetController = (() => {
             } else {
                 data.percentage = -1;
             }
+        },
+
+        calculatePercentages: () => {
+
         },
 
         getBudget: () => {
@@ -218,6 +232,16 @@ const controller = ((UICtrl, budgetCtrl) => {
         // display budget in UI
         UICtrl.displayBudget(budget);
     }
+
+    updatePercentages: () => {
+        // calculate percentage
+
+
+        // read percentages from budget controller
+
+
+        // update UI with new percentage
+    }
     
     const ctrlAddItem = () => {
         let input, newItem;
@@ -237,6 +261,9 @@ const controller = ((UICtrl, budgetCtrl) => {
             
             // calculate and update budget
             updateBudget();
+
+            // calculate and update percentages
+            updatePercentages();
         }        
     }
 
@@ -258,6 +285,9 @@ const controller = ((UICtrl, budgetCtrl) => {
 
             // update and show budget
             updateBudget();
+
+            // calculate and update percentages
+            updatePercentages();
         }
     }
 
