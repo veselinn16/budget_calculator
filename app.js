@@ -5,15 +5,13 @@ const budgetController = (() => {
         this.description = description;
         this.value = value;
         this.percentage = -1;
-    }
-
-    Expense.prototype.calcPercentage = (totalIncome) => {
-        // calculate percentage if there is income
-        (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
-    }
-
-    Expense.prototype.getPercentage = () => {
-        return this.percentage;
+        this.calcPercentage = (totalIncome) => {
+            // calculate percentage if there is income
+            // (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
+            if(totalIncome > 0) {
+                this.percentage = Math.round((this.value / totalIncome) * 100);
+            }
+        }
     }
 
     const Income = function (id, description, value) {
@@ -111,14 +109,14 @@ const budgetController = (() => {
         calculatePercentages: () => {
             data.allEntries.expense.forEach((current) => {
                 // calculate percentage for every expense entry
-                current.calcPercentage();
+                current.calcPercentage(data.totals.income);
             })
         },
 
         getPercentages: () => {
             // get percentages and return them
             let allPercentages = data.allEntries.expense.map((current) => {
-                return current.getPercentage();
+                return current.percentage;
             })
             // array of percentages
             return allPercentages;
@@ -245,14 +243,15 @@ const controller = ((UICtrl, budgetCtrl) => {
         UICtrl.displayBudget(budget);
     }
 
-    updatePercentages: () => {
+    const updatePercentages = () => {
         // calculate percentage
-
+        budgetCtrl.calculatePercentages();
 
         // read percentages from budget controller
-
+        let percentages = budgetCtrl.getPercentages();
 
         // update UI with new percentage
+        console.log(percentages)
     }
     
     const ctrlAddItem = () => {
