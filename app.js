@@ -109,7 +109,19 @@ const budgetController = (() => {
         },
 
         calculatePercentages: () => {
+            data.allEntries.expense.forEach((current) => {
+                // calculate percentage for every expense entry
+                current.calcPercentage();
+            })
+        },
 
+        getPercentages: () => {
+            // get percentages and return them
+            let allPercentages = data.allEntries.expense.map((current) => {
+                return current.getPercentage();
+            })
+            // array of percentages
+            return allPercentages;
         },
 
         getBudget: () => {
