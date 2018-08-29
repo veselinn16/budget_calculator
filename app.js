@@ -7,10 +7,7 @@ const budgetController = (() => {
         this.percentage = -1;
         this.calcPercentage = (totalIncome) => {
             // calculate percentage if there is income
-            // (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
-            if(totalIncome > 0) {
-                this.percentage = Math.round((this.value / totalIncome) * 100);
-            }
+            (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
         }
     }
 
@@ -150,7 +147,8 @@ const UIController = (() => {
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        itemsContainer: '.container'
+        itemsContainer: '.container',
+        expensePercentageLabel: '.item__percentage'
     }
     
     return {
@@ -206,7 +204,25 @@ const UIController = (() => {
             document.querySelector(domStrings.incomeLabel).textContent = dataObject.totalIncome;
             document.querySelector(domStrings.expensesLabel).textContent = dataObject.totalExpenses;
 
-            dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = '---';
+            dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = 'N/A';
+        },
+
+        displayPercentages: (percentages) => {
+            // get nodeList
+            let fields = document.querySelectorAll(domStrings.expensePercentageLabel);
+
+            // custom forEach funciton for nodeLists
+            const nodeListForEach = (list, callback) => {
+                for (let i = 0; i < list.length; i++) {
+                    callback(list[i], i)
+                }
+            }
+
+            nodeListForEach(fields, (current, index) => {
+                // current = list[i] ; index = i
+                percentages[index] > 0 ? current.textContent = `${percentages[index]}%` :  current.textContent = 'N/A';
+                
+            })
         },
 
         getDOMStrings: () => {
@@ -251,7 +267,7 @@ const controller = ((UICtrl, budgetCtrl) => {
         let percentages = budgetCtrl.getPercentages();
 
         // update UI with new percentage
-        console.log(percentages)
+        UICtrl.displayPercentages(percentages);
     }
     
     const ctrlAddItem = () => {
