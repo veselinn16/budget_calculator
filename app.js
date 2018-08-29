@@ -218,9 +218,13 @@ const UIController = (() => {
         },
 
         displayBudget: (dataObject) => {
-            document.querySelector(domStrings.budgetLabel).textContent = dataObject.budget;
-            document.querySelector(domStrings.incomeLabel).textContent = dataObject.totalIncome;
-            document.querySelector(domStrings.expensesLabel).textContent = dataObject.totalExpenses;
+            let type;
+
+            dataObject.budget > 0 ? type = 'income' : type = 'expense';
+
+            document.querySelector(domStrings.budgetLabel).textContent = formatNumber(dataObject.budget, type);
+            document.querySelector(domStrings.incomeLabel).textContent = formatNumber(dataObject.totalIncome, 'income');
+            document.querySelector(domStrings.expensesLabel).textContent = formatNumber(dataObject.totalExpenses, 'expense');
 
             dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = 'N/A';
         },
