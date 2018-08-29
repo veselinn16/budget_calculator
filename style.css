@@ -8,6 +8,15 @@
     box-sizing: border-box;
 }
 
+:root {
+    --color-main-1: #ff5049;
+    --color-main-2: #28B9B5;
+    --color-light-grey-1: #e7e7e7;
+    --color-light-grey-2: #f7f7f7;
+    --color-light-grey-3: #ffdad9;
+    --color-white: #fff;
+}
+
 .clearfix::after {
     content: "";
     display: table;
@@ -24,8 +33,8 @@ body {
 }
 
 .right { float: right; }
-.red { color: #FF5049 !important; }
-.red-focus:focus { border: 1px solid #FF5049 !important; }
+.red { color: var(--color-main-1) !important; }
+.red-focus:focus { border: 1px solid var(--color-main-1) !important; }
 
 /**********************************************
 *** TOP PART
@@ -45,7 +54,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff;
+    color: var(--color-white);
 }
 
 .budget__title {
@@ -71,11 +80,11 @@ body {
 
 .budget__income {
     margin-bottom: 10px;
-    background-color: #28B9B5;
+    background-color: var(--color-main-2);
 }
 
 .budget__expenses {
-    background-color: #FF5049;
+    background-color: var(--color-main-1);
 }
 
 .budget__income--text,
@@ -102,7 +111,7 @@ body {
 }
 
 .budget__expenses--percentage {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(var(--color-main-2) 0.2);
     text-align: center;
     border-radius: 3px;
 }
@@ -115,8 +124,8 @@ body {
 /***** FORM *****/
 .add {
     padding: 14px;
-    border-bottom: 1px solid #e7e7e7;
-    background-color: #f7f7f7;
+    border-bottom: 1px solid var(--color-light-grey-1);
+    background-color: var(--color-light-grey-2);
 }
 
 .add__container {
@@ -126,11 +135,11 @@ body {
 
 .add__type {
     width: 55px;
-    border: 1px solid #e7e7e7;
+    border: 1px solid var(--color-light-grey-1);
     height: 44px;
     font-size: 18px;
     color: inherit;
-    background-color: #fff;
+    background-color: var(--color-white);
     margin-right: 10px;
     font-weight: 300;
     transition: border 0.3s;
@@ -138,8 +147,8 @@ body {
 
 .add__description,
 .add__value {
-    border: 1px solid #e7e7e7;
-    background-color: #fff;
+    border: 1px solid var(--color-light-grey-1);
+    background-color: var(--color-white);
     color: inherit;
     font-family: inherit;
     font-size: 14px;
@@ -156,7 +165,7 @@ body {
     font-size: 35px;
     background: none;
     border: none;
-    color: #28B9B5;
+    color: var(--color-main-2);
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
@@ -170,7 +179,7 @@ body {
 .add__description:focus,
 .add__value:focus {
     outline: none;
-    border: 1px solid #28B9B5;
+    border: 1px solid var(--color-main-2);
 }
 
 .add__btn:focus { outline: none; }
@@ -199,16 +208,16 @@ h2 {
     margin-bottom: 15px;
 }
 
-.icome__title { color: #28B9B5; }
-.expenses__title { color: #FF5049; }
+.icome__title { color: var(--color-main-2); }
+.expenses__title { color: var(--color-main-1); }
 
 .item {
     padding: 13px;
-    border-bottom: 1px solid #e7e7e7;
+    border-bottom: 1px solid var(--color-light-grey-1);
 }
 
-.item:first-child { border-top: 1px solid #e7e7e7; }
-.item:nth-child(even) { background-color: #f7f7f7; }
+.item:first-child { border-top: 1px solid var(--color-light-grey-1); }
+.item:nth-child(even) { background-color: var(--color-light-grey-2); }
 
 .item__description {
     float: left;
@@ -224,7 +233,7 @@ h2 {
     margin-left: 20px;
     transition: transform 0.3s;
     font-size: 11px;
-    background-color: #FFDAD9;
+    background-color: var(--color-light-grey-3);
     padding: 3px;
     border-radius: 3px;
     width: 32px;
@@ -233,13 +242,13 @@ h2 {
 
 .income .item__value,
 .income .item__delete--btn {
-    color: #28B9B5;
+    color: var(--color-main-2);
 }
 
 .expenses .item__value,
 .expenses .item__percentage,
 .expenses .item__delete--btn {
-    color: #FF5049;
+    color: var(--color-main-1);
 }
 
 
@@ -267,9 +276,9 @@ h2 {
 
 
 .unpaid {
-    background-color: #FFDAD9 !important;
+    background-color: var(--color-light-grey-3) !important;
     cursor: pointer;
-    color: #FF5049;
+    color: var(--color-main-1);
 
 }
 
