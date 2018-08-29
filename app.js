@@ -62,21 +62,6 @@ const budgetController = (() => {
             return newItem;
         },
 
-        // removeItem : (type, id) => {
-        //     let IDs, index;
-        //     IDs = data.allEntries[type].map((current) => {
-        //         // return an array of the actual IDs
-        //         return current.id 
-        //     })
-
-        //     // find the index of the element in the array
-        //     console.log(IDs, id)
-        //     index = IDs.indexOf(id)
-
-        //     // remove the element from the data object if the index is not -1
-        //     (index !== -1) && (data.allEntries[type].splice(index, 1))
-        // },
-
         removeItem: function(type, id) {
  
             const delIndex = data.allEntries[type].findIndex(el => {
@@ -169,6 +154,13 @@ const UIController = (() => {
         // add +/- before number and return it            
         return `${(type === 'expense' ? '-' : '+')} ${int}.${decimal}`
     }
+
+    // custom forEach funciton for nodeLists
+    const nodeListForEach = (list, callback) => {
+        for (let i = 0; i < list.length; i++) {
+            callback(list[i], i)
+        }
+    }
     
     return {
         getInput: () => {
@@ -234,13 +226,6 @@ const UIController = (() => {
             // get nodeList
             let fields = document.querySelectorAll(domStrings.expensePercentageLabel);
 
-            // custom forEach funciton for nodeLists
-            const nodeListForEach = (list, callback) => {
-                for (let i = 0; i < list.length; i++) {
-                    callback(list[i], i)
-                }
-            }
-
             nodeListForEach(fields, (current, index) => {
                 // current = list[i] ; index = i
                 percentages[index] > 0 ? current.textContent = `${percentages[index]}%` :  current.textContent = 'N/A';
@@ -256,6 +241,18 @@ const UIController = (() => {
             year = now.getFullYear();
             month = now.getMonth()
             document.querySelector(domStrings.currentDateLabel).textContent = `${months[month]}, ${year}`;
+        },
+
+        changeType: () => {
+            const inputs = document.querySelectorAll(
+                `${domStrings.inputType},${domStrings.inputDescription},${domStrings.inputValue}`
+            )
+
+            nodeListForEach(inputs, (current) => {
+                current.classList.toggle('red-focus');
+            });
+
+            document.querySelector(domStrings.btn).classList.toggle('red');
         },
 
         getDOMStrings: () => {
@@ -278,7 +275,9 @@ const controller = ((UICtrl, budgetCtrl) => {
             (event.keyCode === 13) && (ctrlAddItem());
         });
 
-        document.querySelector(DOM.itemsContainer).addEventListener('click', deleteItem)
+        document.querySelector(DOM.itemsContainer).addEventListener('click', deleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
     }
 
     const updateBudget = () => {
