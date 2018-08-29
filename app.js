@@ -148,7 +148,8 @@ const UIController = (() => {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         itemsContainer: '.container',
-        expensePercentageLabel: '.item__percentage'
+        expensePercentageLabel: '.item__percentage',
+        currentDateLabel: '.budget__title--month'
     }
 
     const formatNumber = (num, type) => {
@@ -245,6 +246,16 @@ const UIController = (() => {
                 percentages[index] > 0 ? current.textContent = `${percentages[index]}%` :  current.textContent = 'N/A';
                 
             })
+        },
+
+        displayDate: () => {
+            let now, year, month, months;
+            now = new Date();
+
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            year = now.getFullYear();
+            month = now.getMonth()
+            document.querySelector(domStrings.currentDateLabel).textContent = `${months[month]}, ${year}`;
         },
 
         getDOMStrings: () => {
@@ -350,6 +361,7 @@ const controller = ((UICtrl, budgetCtrl) => {
                 totalExpenses: 0
             });
             setupEventListeners();
+            UICtrl.displayDate()
         }
     }
 })(UIController, budgetController)
