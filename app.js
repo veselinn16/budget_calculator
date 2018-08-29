@@ -150,6 +150,24 @@ const UIController = (() => {
         itemsContainer: '.container',
         expensePercentageLabel: '.item__percentage'
     }
+
+    const formatNumber = (num, type) => {
+        let numSplit, int, decimal;
+        // place 2 decimal points after integers
+        num = Math.abs(num);
+        num = num.toFixed(2);
+
+        // separate thousands with commas
+        numSplit = num.split('.');
+        int = numSplit[0];
+        decimal = numSplit[1];
+        if(int.length > 3)  {
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3); // if int = 2310, int = 2,310
+        }
+
+        // add +/- before number and return it            
+        return `${(type === 'expense' ? '-' : '+')} ${int}.${decimal}`
+    }
     
     return {
         getInput: () => {
@@ -166,11 +184,11 @@ const UIController = (() => {
                 element = domStrings.incomeContainer
 
                 // create HTML string with appropriate values
-                html = `<div class="item clearfix" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix"><div class="item__value">${object.value}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>              </div></div></div>`
+                html = `<div class="item clearfix" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>              </div></div></div>`
             } else {
                 element = domStrings.expensesContainer
 
-                html = `<div class="item clearfix" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix">     <div class="item__value">${object.value}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
+                html = `<div class="item clearfix" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix">     <div class="item__value">${formatNumber(object.value, type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
             }
 
             // insert HTML in the DOM
