@@ -15,11 +15,11 @@ html {
     /* --color-main-1: #ff5049; */
     --color-main-1: #ff1a1a;
     --color-main-2: #00b300;
-    /* --color-light-grey-1: #e7e7e7;
-    --color-light-grey-2: #f7f7f7; */
+    --color-light-grey-4: #e7e7e7;
+    --color-light-grey-3: #f7f7f7;
     --color-light-grey-1: #ffd700;
     --color-light-grey-2: #ffdf32;
-    --color-light-grey-3: #ff5049;
+    /* --color-light-grey-3: #ff5049; */
     --color-white: #fff;
 
     --bor-radius: .5rem;
@@ -218,11 +218,20 @@ h2 {
     display: flex;
     justify-content: space-between;
     padding: 1.3rem;
-    border-bottom: 1px solid var(--color-light-grey-1);
 }
 
-.item:first-child { border-top: 1px solid var(--color-light-grey-1); }
-.item:nth-child(even) { background-color: var(--color-light-grey-2); }
+.red_item {
+    color: var(--color-main-1);
+    border-bottom: 1px solid var(--color-main-1);
+}
+
+.green_item {
+    color: var(--color-main-2);
+    border-bottom: 1px solid var(--color-main-2);
+}
+
+.item:first-child { border-top: 1px solid var(--color-light-grey-4); }
+.item:nth-child(even) { background-color: var(--color-light-grey-3); }
 
 .item__value {
     transition: transform 0.3s;
