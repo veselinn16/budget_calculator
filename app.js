@@ -177,11 +177,11 @@ const UIController = (() => {
                 element = domStrings.incomeContainer
 
                 // create HTML string with appropriate values
-                html = `<div class="item clearfix" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>              </div></div></div>`
+                html = `<div class="item" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>              </div></div></div>`
             } else {
                 element = domStrings.expensesContainer
 
-                html = `<div class="item clearfix" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right clearfix">     <div class="item__value">${formatNumber(object.value, type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
+                html = `<div class="item" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
             }
 
             // insert HTML in the DOM
