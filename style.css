@@ -1,7 +1,14 @@
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
+    box-sizing: inherit;
+}
+
+html {
     box-sizing: border-box;
+    font-size: 62.5%; /* 1rem = 10px */
 }
 
 :root {
@@ -24,7 +31,7 @@
 
 body {
     color: #555;
-    font-family: Open Sans;
+    font-family: 'Open Sans';
     font-size: 16px;
     position: relative;
     height: 100vh;
@@ -44,42 +51,40 @@ body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(back.jpg);
     background-size: cover;
     background-position: center;
-    position: relative;
+    padding: 1rem 0;
 }
 
 .budget {
-    position: absolute;
-    width: 350px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    width: 25%;
+    height: 100%;
     color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .budget__title {
-    font-size: 18px;
+    font-size: 1.8rem;
     text-align: center;
-    margin-bottom: 10px;
     font-weight: 300;
 }
 
 .budget__value {
     font-weight: 300;
-    font-size: 46px;
+    font-size: 4.6rem;
     text-align: center;
-    margin-bottom: 25px;
     letter-spacing: 2px;
 }
 
 .budget__income,
 .budget__expenses {
-    padding: 12px;
+    padding: 1.2rem;
     text-transform: uppercase;
     border-radius: 5px;
 }
 
 .budget__income {
-    margin-bottom: 10px;
     background-color: var(--color-main-2);
 }
 
@@ -92,7 +97,7 @@ body {
     float: left;
     font-size: 13px;
     color: var(--color-white);
-    margin-top: 2px;
+    /* margin-top: 2px; */
 }
 
 .budget__income--value,
