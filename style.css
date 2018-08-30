@@ -211,8 +211,16 @@ h2 {
     letter-spacing: 1rem;
 }
 
-.income__title { color: var(--color-main-2); }
-.expenses__title { color: var(--color-main-1); }
+.income__title { 
+    color: var(--color-main-2);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-main-2);
+}
+.expenses__title {
+    color: var(--color-main-1);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-main-1);
+}
 
 .item {
     display: flex;
@@ -230,7 +238,7 @@ h2 {
     border-bottom: 1px solid var(--color-main-2);
 }
 
-.item:first-child { border-top: 1px solid var(--color-light-grey-4); }
+.item:first-child { margin-top: -1.3rem; }
 .item:nth-child(even) { background-color: var(--color-light-grey-3); }
 
 .item__value {
