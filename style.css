@@ -21,6 +21,8 @@ html {
     --color-light-grey-2: #ffdf32;
     --color-light-grey-3: #ff5049;
     --color-white: #fff;
+
+    --bor-radius: .5rem;
 }
 
 .clearfix::after {
@@ -38,7 +40,7 @@ body {
     font-weight: 400;
 }
 
-.right { float: right; }
+.right { display: flex; }
 .red { color: var(--color-main-1) !important; }
 .red-focus:focus { border: 1px solid var(--color-main-1) !important; }
 
@@ -81,7 +83,10 @@ body {
 .budget__expenses {
     padding: 1.2rem;
     text-transform: uppercase;
-    border-radius: 5px;
+    border-radius: var(--bor-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .budget__income {
@@ -94,25 +99,20 @@ body {
 
 .budget__income--text,
 .budget__expenses--text {
-    float: left;
-    font-size: 13px;
+    font-size: 1.3rem;
     color: var(--color-white);
-    /* margin-top: 2px; */
 }
 
 .budget__income--value,
 .budget__expenses--value {
     letter-spacing: 1px;
-    float: left;
 }
 
 .budget__income--percentage,
 .budget__expenses--percentage {
-    float: left;
-    width: 34px;
-    font-size: 11px;
-    padding: 3px 0;
-    margin-left: 10px;
+    font-size: 1.1rem;
+    padding: 3px;
+    margin-left: 1rem;
 }
 
 .budget__expenses--percentage {
@@ -148,7 +148,7 @@ body {
     margin-right: 10px;
     font-weight: 300;
     transition: border 0.3s;
-    border-radius: 5px;
+    border-radius: var(--bor-radius);
 }
 
 .add__description,
