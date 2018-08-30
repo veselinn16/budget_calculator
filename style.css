@@ -53,7 +53,6 @@ body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(back.jpg);
     background-size: cover;
     background-position: center;
-    padding: 1rem 0;
 }
 
 .budget {
@@ -130,7 +129,7 @@ body {
     flex-direction: column;
 }
 
-/***** FORM *****/
+/***** INPUTS *****/
 .add {
     padding: 1.4rem 1.5rem;
     border-bottom: 1px solid var(--color-light-grey-1);
@@ -174,12 +173,11 @@ body {
 .add__value { width: 20%;}
 
 .add__btn {
-    font-size: 3.5rem;
+    font-size: 4rem;
     background: none;
     border: none;
     color: var(--color-main-2);
     cursor: pointer;
-    line-height: 1.1;
 }
 
 .add__btn:active { transform: translateY(2px); }
@@ -195,58 +193,50 @@ body {
 
 /***** LISTS *****/
 .container {
-    width: 1000px;
-    margin: 60px auto;
-}
-
-.income {
-    float: left;
-    width: 475px;
-    margin-right: 50px;
-}
-
-.expenses {
-    float: left;
-    width: 475px;
+    width: 90%;
+    padding: 6rem 0;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 4%;
 }
 
 h2 {
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 400;
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 1rem;
 }
 
-.icome__title { color: var(--color-main-2); }
+.income__title { color: var(--color-main-2); }
 .expenses__title { color: var(--color-main-1); }
 
 .item {
-    padding: 13px;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.3rem;
     border-bottom: 1px solid var(--color-light-grey-1);
 }
 
 .item:first-child { border-top: 1px solid var(--color-light-grey-1); }
 .item:nth-child(even) { background-color: var(--color-light-grey-2); }
 
-.item__description {
-    float: left;
-}
-
 .item__value {
-    float: left;
     transition: transform 0.3s;
 }
 
 .item__percentage {
-    float: left;
-    margin-left: 20px;
+    margin-left: 2rem;
     transition: transform 0.3s;
-    font-size: 11px;
+    font-size: 1.1rem;
     color: var(--color-white);
     background-color: var(--color-main-1);
-    padding: 3px;
-    border-radius: 3px;
-    width: 32px;
+    padding: .3rem;
+    border-radius: .3rem;
+    width: 3.2rem;
     text-align: center;
 }
 
@@ -261,37 +251,18 @@ h2 {
     color: var(--color-main-1);
 }
 
-
-.item__delete {
-    float: left;
-}
-
 .item__delete--btn {
-    font-size: 22px;
+    font-size: 2.2rem;
     background: none;
     border: none;
     cursor: pointer;
     display: inline-block;
-    vertical-align: middle;
     line-height: 1;
     display: none;
 }
 
 .item__delete--btn:focus { outline: none; }
-.item__delete--btn:active { transform: translateY(2px); }
 
 .item:hover .item__delete--btn { display: block; }
 .item:hover .item__value { transform: translateX(-20px); }
 .item:hover .item__percentage { transform: translateX(-20px); }
-
-
-.unpaid {
-    background-color: var(--color-light-grey-3) !important;
-    cursor: pointer;
-    color: var(--color-main-1);
-
-}
-
-.unpaid .item__percentage { box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1); }
-.unpaid:hover .item__description { font-weight: 900; }
-
