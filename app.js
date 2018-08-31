@@ -221,11 +221,12 @@ const UIController = (() => {
         displayBudget: (dataObject) => {
             let type;
 
+            console.log(dataObject);
             dataObject.budget > 0 ? type = 'income' : type = 'expense';
 
             document.querySelector(domStrings.budgetLabel).textContent = formatNumber(dataObject.budget, type);
-            document.querySelector(domStrings.incomeLabel).textContent = formatNumber(dataObject.totals.income, 'income');
-            document.querySelector(domStrings.expensesLabel).textContent = formatNumber(dataObject.totals.expense, 'expense');
+            document.querySelector(domStrings.incomeLabel).textContent = formatNumber(dataObject.totalIncome, 'income');
+            document.querySelector(domStrings.expensesLabel).textContent = formatNumber(dataObject.totalExpenses, 'expense');
 
             dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = 'N/A';
         },
@@ -360,14 +361,15 @@ const controller = ((UICtrl, budgetCtrl) => {
 
     return {
         init: () => {
+            const data = JSON.parse(localStorage.getItem('data'))
             // reset everything to 0
-            // UICtrl.displayBudget({
-            //     budget: 0,
-            //     percentage: -1,
-            //     totalIncome: 0,
-            //     totalExpenses: 0
-            // });
-            UICtrl.displayBudget(JSON.parse(localStorage.getItem('data')))
+            UICtrl.displayBudget({
+                budget: data.budget,
+                percentage: data.percentage,
+                totalIncome: data.totals.income,
+                totalExpenses: data.totals.expense
+            });
+            // UICtrl.displayBudget(JSON.parse(localStorage.getItem('data')))
             setupEventListeners();
             UICtrl.displayDate()
         },
