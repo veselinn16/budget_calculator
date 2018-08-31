@@ -17,7 +17,8 @@ const budgetController = (() => {
         this.value = value;
     }
 
-    let data = {
+    // checks whether there is such an object in the storage and if there is, it uses it; if not, it creates a new object
+    let data = localStorage.getItem('data') ?  JSON.parse(localStorage.getItem('data')) : localStorage.setItem('data', JSON.stringify({
         allEntries: {
             expense: [],
             income: []
@@ -28,7 +29,7 @@ const budgetController = (() => {
         },
         budget: 0,
         percentage: -1
-    }
+    }));
 
     const sumTotal = (type) => {
         let sum = 0;
@@ -37,7 +38,9 @@ const budgetController = (() => {
             sum += currentEl.value;
         })
 
-        data.totals[type] = sum
+        data.totals[type] = sum;
+
+        controller.changeStorage(data);
     }
 
     return {
@@ -58,6 +61,8 @@ const budgetController = (() => {
             // access object using string notation
             data.allEntries[type].push(newItem);
 
+            controller.changeStorage(data);
+
             // return new item
             return newItem;
         },
@@ -69,7 +74,8 @@ const budgetController = (() => {
             });
          
             data.allEntries[type].splice(delIndex, 1);
-         
+            
+            controller.changeStorage(data);
         },
 
         calculateBudget: () => {
@@ -86,6 +92,8 @@ const budgetController = (() => {
             } else {
                 data.percentage = -1;
             }
+
+            controller.changeStorage(data);
         },
 
         calculatePercentages: () => {
@@ -216,8 +224,8 @@ const UIController = (() => {
             dataObject.budget > 0 ? type = 'income' : type = 'expense';
 
             document.querySelector(domStrings.budgetLabel).textContent = formatNumber(dataObject.budget, type);
-            document.querySelector(domStrings.incomeLabel).textContent = formatNumber(dataObject.totalIncome, 'income');
-            document.querySelector(domStrings.expensesLabel).textContent = formatNumber(dataObject.totalExpenses, 'expense');
+            document.querySelector(domStrings.incomeLabel).textContent = formatNumber(dataObject.totals.income, 'income');
+            document.querySelector(domStrings.expensesLabel).textContent = formatNumber(dataObject.totals.expense, 'expense');
 
             dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = 'N/A';
         },
@@ -353,14 +361,19 @@ const controller = ((UICtrl, budgetCtrl) => {
     return {
         init: () => {
             // reset everything to 0
-            UICtrl.displayBudget({
-                budget: 0,
-                percentage: -1,
-                totalIncome: 0,
-                totalExpenses: 0
-            });
+            // UICtrl.displayBudget({
+            //     budget: 0,
+            //     percentage: -1,
+            //     totalIncome: 0,
+            //     totalExpenses: 0
+            // });
+            UICtrl.displayBudget(JSON.parse(localStorage.getItem('data')))
             setupEventListeners();
             UICtrl.displayDate()
+        },
+
+        changeStorage: (data) => {
+            localStorage.setItem('data', JSON.stringify(data));
         }
     }
 })(UIController, budgetController)
