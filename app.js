@@ -103,6 +103,7 @@ const budgetController = (() => {
                 // calculate percentage for every expense entry              
                 (data.totals.income > 0) && (current.percentage = Math.round((current.value / data.totals.income) * 100));
             })
+            controller.changeStorage(data);
         },
 
         getPercentages: () => {
@@ -298,6 +299,7 @@ const controller = ((UICtrl, budgetCtrl) => {
 
         document.querySelector(DOM.itemsContainer).addEventListener('click', deleteItem);
 
+        //changes border color
         document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
     }
 
@@ -388,6 +390,7 @@ const controller = ((UICtrl, budgetCtrl) => {
             setupEventListeners();
             UICtrl.displayDate();
             displayEntries();
+            updatePercentages();
         },
 
         changeStorage: (data) => {
