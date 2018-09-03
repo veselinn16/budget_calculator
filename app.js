@@ -18,7 +18,7 @@ const budgetController = (() => {
     }
 
     // checks whether there is such an object in the storage and if there is, it uses it; if not, it creates a new object
-    let data = localStorage.getItem('data') ?  JSON.parse(localStorage.getItem('data')) : localStorage.setItem('data', JSON.stringify({
+    const data = localStorage.getItem('data') ?  JSON.parse(localStorage.getItem('data')) : localStorage.setItem('data', JSON.stringify({
         allEntries: {
             expense: [],
             income: []
@@ -30,6 +30,27 @@ const budgetController = (() => {
         budget: 0,
         percentage: -1
     }));
+
+    // let data;
+
+    // if(localStorage.getItem('data')) {
+    //     console.log('data is defined in local storage!')
+    //     data = JSON.parse(localStorage.getItem('data'));
+    // } else {
+    //     console.log('data is being created...')
+    //     data = localStorage.setItem('data', JSON.stringify({
+    //         allEntries: {
+    //             expense: [],
+    //             income: []
+    //         },
+    //         totals: {
+    //             expense: 0,
+    //             income: 0
+    //         },
+    //         budget: 0,
+    //         percentage: -1
+    //     }));
+    // }
 
     const sumTotal = (type) => {
         let sum = 0;
@@ -78,6 +99,13 @@ const budgetController = (() => {
             controller.changeStorage(data);
         },
 
+        initialBudget: {
+            budget: 0,
+            percentage: -1,
+            totalIncome: 0,
+            totalExpenses: 0
+        },
+
         calculateBudget: () => {
             // calculate total income and expenses
             sumTotal('expense');
@@ -113,16 +141,21 @@ const budgetController = (() => {
         },
 
         getBudget: () => {
-            return {
-                budget: data.budget,
-                percentage: data.percentage,
-                totalIncome: data.totals.income,
-                totalExpenses: data.totals.expense
+            if (data) { 
+                return {
+                    budget: data.budget,
+                    percentage: data.percentage,
+                    totalIncome: data.totals.income,
+                    totalExpenses: data.totals.expense
+                }
+            } else {
+                return {
+                    budget: 0,
+                    percentage: -1,
+                    totalIncome: 0,
+                    totalExpenses: 0
+                }
             }
-        },
-
-        testing: () => {
-            console.log(data);
         }
     }
 })()
@@ -144,6 +177,12 @@ const UIController = (() => {
         expensePercentageLabel: '.item__percentage',
         currentDateLabel: '.budget__title--month'
     }
+
+    // localStorage.getItem('incomeHtml') ? console.log('localStorage has an incomeHtml key.') : localStorage.setItem('incomeHtml', JSON.stringify([]));
+    // localStorage.getItem('expensesHtml') ? console.log('localStorage has an expensesHtml key.') : localStorage.setItem('expensesHtml', JSON.stringify([]));
+
+    // const incomeStorage = JSON.parse(localStorage.getItem('incomeHtml'));
+    // const expensesStorage = JSON.parse(localStorage.getItem('expensesHtml'));
 
     const formatNumber = (num, type) => {
         let numSplit, int, decimal;
@@ -186,20 +225,26 @@ const UIController = (() => {
 
                 // create HTML string with appropriate values
                 html = `<div class="item green_item" id="income-${object.id}"><div class="item__description">${object.description}</div><div class="right"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
+
+                controller.addStorageHtml(`income-${object.id}`, html, type);
             } else {
                 element = domStrings.expensesContainer
 
                 html = `<div class="item red_item" id="expense-${object.id}"><div class="item__description">${object.description}</div><div class="right"><div class="item__value">${formatNumber(object.value, type)}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>`
+
+                controller.addStorageHtml(`expense-${object.id}`, html, type);
             }
 
             // insert HTML in the DOM
-            document.querySelector(element).insertAdjacentHTML('beforeend', html);
+            document.querySelector(element).insertAdjacentHTML('beforeend', html);    
         },
 
         deleteListItem : (idOfElement) => {
             // remove an entry
             let element = document.getElementById(idOfElement)
             element.parentNode.removeChild(element);
+
+            localStorage.removeItem(idOfElement);
         },
 
         clearInputs: () => {
@@ -349,7 +394,7 @@ const controller = ((UICtrl, budgetCtrl) => {
             budgetCtrl.removeItem(type, id);
 
             // delete item from UI
-            UICtrl.deleteListItem(entryID);
+            UICtrl.deleteListItem(entryID, type, id);
 
             // update and show budget
             updateBudget();
@@ -359,23 +404,31 @@ const controller = ((UICtrl, budgetCtrl) => {
         }
     }
 
+    const displayEntries = () => {
+        for (let i=0; i < localStorage.length; i++) {
+            if (localStorage.getItem(`income-${i}`)) {
+                document.querySelector('.income__list').insertAdjacentHTML('beforeend', localStorage.getItem(`income-${i}`));
+            }
+            if (localStorage.getItem(`expense-${i}`)) {
+                document.querySelector('.expenses__list').insertAdjacentHTML('beforeend', localStorage.getItem(`expense-${i}`));
+            }
+        }
+    }
+
     return {
         init: () => {
-            const data = JSON.parse(localStorage.getItem('data'))
-            // reset everything to 0
-            UICtrl.displayBudget({
-                budget: data.budget,
-                percentage: data.percentage,
-                totalIncome: data.totals.income,
-                totalExpenses: data.totals.expense
-            });
-            // UICtrl.displayBudget(JSON.parse(localStorage.getItem('data')))
+            UICtrl.displayBudget(budgetCtrl.getBudget());
             setupEventListeners();
-            UICtrl.displayDate()
+            UICtrl.displayDate();
+            displayEntries();
         },
 
         changeStorage: (data) => {
             localStorage.setItem('data', JSON.stringify(data));
+        },
+
+        addStorageHtml: (key, html, type) => {
+            type === 'expense' ? localStorage.setItem(key, html) : localStorage.setItem(key, html)
         }
     }
 })(UIController, budgetController)
