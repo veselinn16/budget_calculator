@@ -1,13 +1,15 @@
 // Budget Controller
 const budgetController = (() => {
-    const Expense = function (id, description, value) {
-        this.id = id;
-        this.description = description;
-        this.value = value;
-        this.percentage = -1;
-        this.calcPercentage = (totalIncome) => {
-            // calculate percentage if there is income
-            (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
+    class Expense {
+        constructor(id, description, value) {
+            this.id = id;
+            this.description = description;
+            this.value = value;
+            this.percentage = -1;
+            this.calcPercentage = (totalIncome) => {
+                // calculate percentage if there is income
+                (totalIncome > 0) && (this.percentage = Math.round((this.value / totalIncome) * 100));
+            }
         }
     }
 
@@ -30,27 +32,6 @@ const budgetController = (() => {
         budget: 0,
         percentage: -1
     }));
-
-    // let data;
-
-    // if(localStorage.getItem('data')) {
-    //     console.log('data is defined in local storage!')
-    //     data = JSON.parse(localStorage.getItem('data'));
-    // } else {
-    //     console.log('data is being created...')
-    //     data = localStorage.setItem('data', JSON.stringify({
-    //         allEntries: {
-    //             expense: [],
-    //             income: []
-    //         },
-    //         totals: {
-    //             expense: 0,
-    //             income: 0
-    //         },
-    //         budget: 0,
-    //         percentage: -1
-    //     }));
-    // }
 
     const sumTotal = (type) => {
         let sum = 0;
@@ -99,13 +80,6 @@ const budgetController = (() => {
             controller.changeStorage(data);
         },
 
-        initialBudget: {
-            budget: 0,
-            percentage: -1,
-            totalIncome: 0,
-            totalExpenses: 0
-        },
-
         calculateBudget: () => {
             // calculate total income and expenses
             sumTotal('expense');
@@ -126,8 +100,8 @@ const budgetController = (() => {
 
         calculatePercentages: () => {
             data.allEntries.expense.forEach((current) => {
-                // calculate percentage for every expense entry
-                current.calcPercentage(data.totals.income);
+                // calculate percentage for every expense entry              
+                (data.totals.income > 0) && (current.percentage = Math.round((current.value / data.totals.income) * 100));
             })
         },
 
@@ -177,12 +151,6 @@ const UIController = (() => {
         expensePercentageLabel: '.item__percentage',
         currentDateLabel: '.budget__title--month'
     }
-
-    // localStorage.getItem('incomeHtml') ? console.log('localStorage has an incomeHtml key.') : localStorage.setItem('incomeHtml', JSON.stringify([]));
-    // localStorage.getItem('expensesHtml') ? console.log('localStorage has an expensesHtml key.') : localStorage.setItem('expensesHtml', JSON.stringify([]));
-
-    // const incomeStorage = JSON.parse(localStorage.getItem('incomeHtml'));
-    // const expensesStorage = JSON.parse(localStorage.getItem('expensesHtml'));
 
     const formatNumber = (num, type) => {
         let numSplit, int, decimal;
@@ -266,7 +234,6 @@ const UIController = (() => {
         displayBudget: (dataObject) => {
             let type;
 
-            console.log(dataObject);
             dataObject.budget > 0 ? type = 'income' : type = 'expense';
 
             document.querySelector(domStrings.budgetLabel).textContent = formatNumber(dataObject.budget, type);
@@ -407,10 +374,10 @@ const controller = ((UICtrl, budgetCtrl) => {
     const displayEntries = () => {
         for (let i=0; i < localStorage.length; i++) {
             if (localStorage.getItem(`income-${i}`)) {
-                document.querySelector('.income__list').insertAdjacentHTML('beforeend', localStorage.getItem(`income-${i}`));
+                document.querySelector(UICtrl.getDOMStrings().incomeContainer).insertAdjacentHTML('beforeend', localStorage.getItem(`income-${i}`));
             }
             if (localStorage.getItem(`expense-${i}`)) {
-                document.querySelector('.expenses__list').insertAdjacentHTML('beforeend', localStorage.getItem(`expense-${i}`));
+                document.querySelector(UICtrl.getDOMStrings().expensesContainer).insertAdjacentHTML('beforeend', localStorage.getItem(`expense-${i}`));
             }
         }
     }
