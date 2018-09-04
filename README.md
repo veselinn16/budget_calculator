@@ -4,8 +4,9 @@
 A handy app to keep track of your income and expenses and calculate the total money spent.
 
 ## Development Notes
-The app makes heavy use of vanilla JavaScript. After adding your incomes and expenses, you won't have to worry about closing your browser and losing all your information. The app makes use of the browser's `localStorage` object to store the data. Upon launching, you will see the app in the state you left it. 
-* NOTE: Upon first launch it is recommended to 'refresh the page', because some users may experience issues. After doing this, you should have no problem with the app's functionality. *
+The app makes heavy use of vanilla JavaScript. After adding your incomes and expenses, you won't have to worry about closing your browser and losing all your information. The app makes use of the browser's `localStorage` object to store the data. Upon launching, you will see the app in the state you left it.
+
+**NOTE**: Upon first launch it is recommended to *refresh the page*, because some users may experience issues. After doing this, you should have no problem with the app's functionality. 
 
 ## Languages used in development
 * HTML
