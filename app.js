@@ -1,5 +1,6 @@
 // Budget Controller
 const budgetController = (() => {
+    // Expense Class
     class Expense {
         constructor(id, description, value) {
             this.id = id;
@@ -13,13 +14,14 @@ const budgetController = (() => {
         }
     }
 
+    // Income constructor function
     const Income = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
     }
 
-    // checks whether there is such an object in the storage and if there is, it uses it; if not, it creates a new object
+    // checks whether there is such an object in the storage and if there is, it uses it; if not, it creates a new object and assigns the data variable to it
     const data = localStorage.getItem('data') ?  JSON.parse(localStorage.getItem('data')) : localStorage.setItem('data', JSON.stringify({
         allEntries: {
             expense: [],
@@ -33,6 +35,7 @@ const budgetController = (() => {
         percentage: -1
     }));
 
+    // sums the totals of expenses and incomes and puts them in the data object
     const sumTotal = (type) => {
         let sum = 0;
 
@@ -46,6 +49,7 @@ const budgetController = (() => {
     }
 
     return {
+        // creates a new expense/income instance and returns it
         addItem: (type, description, value) => {
             let newItem, id;
             // generate new id by getting the last element in the data object's allEntries array according to the type and adding 1
@@ -69,6 +73,7 @@ const budgetController = (() => {
             return newItem;
         },
 
+        // remove instance from data object
         removeItem: function(type, id) {
  
             const delIndex = data.allEntries[type].findIndex(el => {
@@ -180,6 +185,7 @@ const UIController = (() => {
     
     return {
         getInput: () => {
+            // values of inputs
             return {
                 type: document.querySelector(domStrings.inputType).value, // income or expense
                 description: document.querySelector(domStrings.inputDescription).value,
@@ -187,6 +193,7 @@ const UIController = (() => {
             }
         },
 
+        // creates html string, inserts it in the DOM and puts it in the localStorage as a key
         addListItem : (object, type) => {
             let html, element;
             if(type === 'income') {
@@ -208,8 +215,8 @@ const UIController = (() => {
             document.querySelector(element).insertAdjacentHTML('beforeend', html);    
         },
 
+        // remove an entry from DOM and localStorage
         deleteListItem : (idOfElement) => {
-            // remove an entry
             let element = document.getElementById(idOfElement)
             element.parentNode.removeChild(element);
 
@@ -224,7 +231,7 @@ const UIController = (() => {
             inputsArray = Array.prototype.slice.call(inputFields);
 
             // loops over all inputs and clears them
-            inputsArray.forEach((current, index, array) => {
+            inputsArray.forEach((current) => {
                 current.value = '';
             });
 
@@ -232,6 +239,7 @@ const UIController = (() => {
             inputsArray[0].focus();
         },
 
+        // display budget in the DOM
         displayBudget: (dataObject) => {
             let type;
 
@@ -244,6 +252,7 @@ const UIController = (() => {
             dataObject.percentage > 0 ? document.querySelector(domStrings.percentageLabel).textContent = `${dataObject.percentage}%` :  document.querySelector(domStrings.percentageLabel).textContent = 'N/A';
         },
 
+        // calculate percentage of total expenses to total income
         displayPercentages: (percentages) => {
             // get nodeList
             let fields = document.querySelectorAll(domStrings.expensePercentageLabel);
@@ -265,6 +274,7 @@ const UIController = (() => {
             document.querySelector(domStrings.currentDateLabel).textContent = `${months[month]}, ${year}`;
         },
 
+        // changes border color of inputs according to type of entry - expense/income
         changeType: () => {
             const inputs = document.querySelectorAll(
                 `${domStrings.inputType},${domStrings.inputDescription},${domStrings.inputValue}`
@@ -277,8 +287,8 @@ const UIController = (() => {
             document.querySelector(domStrings.btn).classList.toggle('red');
         },
 
+        // expose the domStrings object
         getDOMStrings: () => {
-            // expose the domStrings object
             return domStrings;
         }
     }
@@ -373,6 +383,7 @@ const controller = ((UICtrl, budgetCtrl) => {
         }
     }
 
+    // get entries' html from localStorage and place them in the DOM
     const displayEntries = () => {
         for (let i=0; i < localStorage.length; i++) {
             if (localStorage.getItem(`income-${i}`)) {
@@ -393,10 +404,12 @@ const controller = ((UICtrl, budgetCtrl) => {
             updatePercentages();
         },
 
+        // updates the localStorage object
         changeStorage: (data) => {
             localStorage.setItem('data', JSON.stringify(data));
         },
 
+        // places html entry in localStorage
         addStorageHtml: (key, html, type) => {
             type === 'expense' ? localStorage.setItem(key, html) : localStorage.setItem(key, html)
         }
