@@ -14,4 +14,4 @@ The app makes heavy use of vanilla JavaScript. After adding your incomes and exp
 * JavaScript
 
 ## Getting Started
-To use the app, clone this repository to your device or `Download .ZIP` it. After having it on your machine, it is recommended to use `npm` to install the `live-server` package and use it to create a server for the app. Alternatively you could just double-click `index.html` and the app will start. 
+To use the app, clone this repository to your device or `Download .ZIP` it. After having it on your machine, it is recommended to use `npm` to install the `live-server` package and use it to create a server for the app. Alternatively you could just double-click `index.html` and the app will start, but the app won't be able to acces the `localStorage` object. 
